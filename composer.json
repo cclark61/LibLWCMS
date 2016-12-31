@@ -1,0 +1,24 @@
+{
+    "name": "cclark61/phpOpenFW2",
+    "version": "2.0",
+    "require": {},
+	"require-dev": {},
+	"repositories": [],
+    "dist": {
+        "url": "https://github.com/cclark61/phpOpenFW2/archive/master.zip",
+        "type": "zip"
+    },
+    "autoload": {
+		"psr-4": {
+			"phpOpenFW\\": "/src/plugins"
+		}
+	},
+	"scripts-dev": {
+		"post-install-cmd": [
+			"vendor/bin/security-checker security:check"
+		],
+		"post-update-cmd": [
+			"vendor/bin/security-checker security:check"
+		]
+	}
+}

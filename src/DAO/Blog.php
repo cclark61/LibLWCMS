@@ -1,27 +1,26 @@
 <?php
-//**************************************************************************
+//**************************************************************************************
+//**************************************************************************************
 /**
-* Data Access Object :: LWCMS Blog
-*
-* @package		phpOpenPlugins
-* @subpackage	LWCMS
-* @author 		Christian J. Clark
-* @copyright	Copyright (c) Christian J. Clark
-* @license		http://www.gnu.org/licenses/gpl-2.0.txt
-* @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 9/22/2009, Last updated: 1/12/2014
-**/
-//**************************************************************************
+ * Data Access Object :: LWCMS Blog
+ *
+ * @package		LibLWCMS
+ * @author 		Christian J. Clark
+ * @copyright	Copyright (c) Christian J. Clark
+ * @license		https://mit-license.org
+ **/
+//**************************************************************************************
+//**************************************************************************************
 
-//**************************************************************************
-// Include LWCMS Content Version Class
-//**************************************************************************
-include_once('lwcms_cv.class.php');
+namespace LibLWCMS\DAO;
+use \phpOpenFW\Database\QDB;
 
-//**************************************************************************
-// dao_lwcms_blog Class
-//**************************************************************************
-class dao_lwcms_blog
+//**************************************************************************************
+/**
+ * Blog DAO Class
+ */
+//**************************************************************************************
+class Blog
 {
 	//******************************************************************
 	// Class Member Variables
@@ -95,7 +94,7 @@ class dao_lwcms_blog
 	{
 		$strsql = "select * from site_blogs where site_id = ? and id = ? and active = 1";
 		$params = array('ii', $this->site_id, $this->blog_id);
-		return qdb_first_row($this->data_source, $strsql, $params);
+		return QDB::qdb_first_row($this->data_source, $strsql, $params);
 	}
 
 	//******************************************************************
@@ -127,7 +126,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('iii', $this->site_id, $this->blog_id, $entry_id);
-		$entries = qdb_exec($this->data_source, $strsql, $params);
+		$entries = QDB::qdb_exec($this->data_source, $strsql, $params);
 		if (!$entries) { return false; }
 		$this->add_content_to_entries($entries);
 		if ($entries) { return $entries; }
@@ -173,7 +172,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('iii', $this->site_id, $this->blog_id, $max_entries);
-		$entries = qdb_exec($this->data_source, $strsql, $params);
+		$entries = QDB::qdb_exec($this->data_source, $strsql, $params);
 		if (!$entries) { return array(); }
 		$this->add_content_to_entries($entries);
 		return $entries;
@@ -204,7 +203,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('ii', $this->site_id, $this->blog_id);
-		return qdb_exec($this->data_source, $strsql, $params);
+		return QDB::qdb_exec($this->data_source, $strsql, $params);
 	}
 
 	//******************************************************************
@@ -245,7 +244,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('iiss', $this->site_id, $this->blog_id, $start_date, $end_date);
-		$entries = qdb_exec($this->data_source, $strsql, $params);
+		$entries = QDB::qdb_exec($this->data_source, $strsql, $params);
 		if (!$entries) { return false; }
 		$this->add_content_to_entries($entries);
 		return $entries;
@@ -293,7 +292,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('iiss', $this->site_id, $this->blog_id, $cat_id, $days_ago);
-		$entries = qdb_exec($this->data_source, $strsql, $params);
+		$entries = QDB::qdb_exec($this->data_source, $strsql, $params);
 		if (!$entries) { return false; }
 		$this->add_content_to_entries($entries);
 		return $entries;
@@ -313,7 +312,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('iii', $this->site_id, $this->blog_id, $cat_id);
-		return qdb_lookup($this->data_source, $strsql, "category", $params);
+		return QDB::qdb_lookup($this->data_source, $strsql, "category", $params);
 	}
 
 	//******************************************************************
@@ -330,7 +329,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('ii', $this->site_id, $this->blog_id);
-		return qdb_exec($this->data_source, $strsql, $params);
+		return QDB::qdb_exec($this->data_source, $strsql, $params);
 	}
 
 	//******************************************************************
@@ -371,7 +370,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('iis', $this->site_id, $this->blog_id, $days_ago);
-		return qdb_exec($this->data_source, $strsql, $params);
+		return QDB::qdb_exec($this->data_source, $strsql, $params);
 	}
 
 	//******************************************************************
@@ -397,7 +396,7 @@ class dao_lwcms_blog
 		";
 
 		$params = array('ii', $this->site_id, $this->blog_id);
-		return qdb_exec($this->data_source, $strsql, $params, 'id:author_name');
+		return QDB::qdb_exec($this->data_source, $strsql, $params, 'id:author_name');
 	}
 
 	//*************************************************************************
@@ -471,7 +470,7 @@ class dao_lwcms_blog
 			//-------------------------------------------------
 			// Attempt to pull content from cache
 			//-------------------------------------------------
-			if ($file_content = LWCMS_CV::get_cached_version_content($full_cache_file)) {
+			if ($file_content = ContentVersion::get_cached_version_content($full_cache_file)) {
 				return $file_content;
 			}
 			//-------------------------------------------------
@@ -481,19 +480,19 @@ class dao_lwcms_blog
 				//-------------------------------------------------
 				// Pull content from version content
 				//-------------------------------------------------
-				$file_content = LWCMS_CV::get_version_content($this->data_source, $curr_ver);
+				$file_content = ContentVersion::get_version_content($this->data_source, $curr_ver);
 
 				//-------------------------------------------------
 				// Content Exists, try to cache it
 				//-------------------------------------------------
 				if ($file_content) {
-					$status = LWCMS_CV::set_cached_version_content($file_content, $full_cache_path, $full_cache_file);
+					$status = ContentVersion::set_cached_version_content($file_content, $full_cache_path, $full_cache_file);
 				}
 				return $file_content;
 			}
 		}
 		else {
-			return LWCMS_CV::get_version_content($this->data_source, $curr_ver);
+			return ContentVersion::get_version_content($this->data_source, $curr_ver);
 		}
 
 		return false;

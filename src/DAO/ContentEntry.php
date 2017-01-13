@@ -1,27 +1,26 @@
 <?php
-//**************************************************************************
+//**************************************************************************************
+//**************************************************************************************
 /**
-* Data Access Object :: LWCMS Dynamic Content Entry
-*
-* @package		phpOpenPlugins
-* @subpackage	LWCMS
-* @author 		Christian J. Clark
-* @copyright	Copyright (c) Christian J. Clark
-* @license		http://www.gnu.org/licenses/gpl-2.0.txt
-* @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 12/20/2009, Last updated: 5/9/2013
-**/
-//**************************************************************************
+ * Data Access Object :: LWCMS Dynamic Content Entry
+ *
+ * @package		LibLWCMS
+ * @author 		Christian J. Clark
+ * @copyright	Copyright (c) Christian J. Clark
+ * @license		https://mit-license.org
+ **/
+//**************************************************************************************
+//**************************************************************************************
 
-//**************************************************************************
-// Include LWCMS Content Version Class
-//**************************************************************************
-include_once('lwcms_cv.class.php');
+namespace LibLWCMS\DAO;
+use \phpOpenFW\Database\QDB;
 
-//**************************************************************************
-// dao_lwcms_dce Class
-//**************************************************************************
-class dao_lwcms_dce
+//**************************************************************************************
+/**
+ * Dynamic Content Entry DAO Class
+ */
+//**************************************************************************************
+class ContentEntry
 {
 	//******************************************************************
 	// Class Member Variables
@@ -229,7 +228,7 @@ class dao_lwcms_dce
 				//-------------------------------------------------
 				// Attempt to pull content from cache
 				//-------------------------------------------------
-				if ($file_content = LWCMS_CV::get_cached_version_content($full_cache_file)) {
+				if ($file_content = ContentVersion::get_cached_version_content($full_cache_file)) {
 					return $file_content;
 				}
 				//-------------------------------------------------
@@ -239,19 +238,19 @@ class dao_lwcms_dce
 					//-------------------------------------------------
 					// Pull content from version content
 					//-------------------------------------------------
-					$file_content = LWCMS_CV::get_version_content($this->data_source, $curr_ver);
+					$file_content = ContentVersion::get_version_content($this->data_source, $curr_ver);
 
 					//-------------------------------------------------
 					// Content Exists, try to cache it
 					//-------------------------------------------------
 					if ($file_content) {
-						$status = LWCMS_CV::set_cached_version_content($file_content, $full_cache_path, $full_cache_file);
+						$status = ContentVersion::set_cached_version_content($file_content, $full_cache_path, $full_cache_file);
 					}
 					return $file_content;
 				}
 			}
 			else {
-				return LWCMS_CV::get_version_content($this->data_source, $curr_ver);
+				return ContentVersion::get_version_content($this->data_source, $curr_ver);
 			}
 		}
 		else { return false; }

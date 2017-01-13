@@ -1,19 +1,26 @@
 <?php
-//**************************************************************************
+//**************************************************************************************
+//**************************************************************************************
 /**
-* LWCMS Content Version Plugin
-*
-* @package		phpOpenPlugins
-* @subpackage	LWCMS
-* @author 		Christian J. Clark
-* @copyright	Copyright (c) Christian J. Clark
-* @license		http://www.gnu.org/licenses/gpl-2.0.txt
-* @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 2/28/2013, Last updated: 3/5/2013
-**/
-//**************************************************************************
+ * LWCMS Content Version Plugin
+ *
+ * @package		LibLWCMS
+ * @author 		Christian J. Clark
+ * @copyright	Copyright (c) Christian J. Clark
+ * @license		https://mit-license.org
+ **/
+//**************************************************************************************
+//**************************************************************************************
 
-class LWCMS_CV
+namespace LibLWCMS\DAO;
+use \phpOpenFW\Database\QDB;
+
+//**************************************************************************************
+/**
+ * Dynamic Content Entry Version DAO Class
+ */
+//**************************************************************************************
+class ContentVersion
 {
 
 	//******************************************************************

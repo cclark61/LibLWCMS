@@ -1,19 +1,26 @@
 <?php
-//**************************************************************************
+//**************************************************************************************
+//**************************************************************************************
 /**
-* Data Access Object :: LWCMS Dynamic Content Folder
-*
-* @package		phpOpenPlugins
-* @subpackage	LWCMS
-* @author 		Christian J. Clark
-* @copyright	Copyright (c) Christian J. Clark
-* @license		http://www.gnu.org/licenses/gpl-2.0.txt
-* @link			http://www.emonlade.net/phpopenplugins/
-* @version 		Started: 12/20/2009, Last updated: 3/1/2013
-**/
-//**************************************************************************
+ * Data Access Object :: LWCMS Dynamic Content Folder
+ *
+ * @package		LibLWCMS
+ * @author 		Christian J. Clark
+ * @copyright	Copyright (c) Christian J. Clark
+ * @license		https://mit-license.org
+ **/
+//**************************************************************************************
+//**************************************************************************************
 
-class dao_lwcms_dcf
+namespace LibLWCMS\DAO;
+use \phpOpenFW\Database\QDB;
+
+//**************************************************************************************
+/**
+ * Dynamic Content Folder DAO Class
+ */
+//**************************************************************************************
+class ContentFolder
 {
 	//******************************************************************
 	// Class Member Variables

@@ -197,7 +197,7 @@ class Blog
 		}
 		
 		$feed_data['channel_entries'] = $ce;
-		return xml_escape_array($feed_data);
+		return \phpOpenFW\XML\Format::xml_escape_array($feed_data);
 	}
 	
 	//**************************************************************

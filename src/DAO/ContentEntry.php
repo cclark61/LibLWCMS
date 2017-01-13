@@ -117,7 +117,7 @@ class ContentEntry
 					and active = 1
 		";
 
-		$entries = qdb_exec($this->data_source, $strsql, array('is', $this->site_id, $url_tag));
+		$entries = QDB::qdb_exec($this->data_source, $strsql, array('is', $this->site_id, $url_tag));
 		if (isset($entries[0])) {
 			$this->initialize($entries[0]);
 			return true;
@@ -163,7 +163,7 @@ class ContentEntry
 					and active = 1
 		";
 
-		$entries = qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $entry_id));
+		$entries = QDB::qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $entry_id));
 		if (isset($entries[0])) {
 			$this->initialize($entries[0]);
 			return true;
@@ -326,7 +326,7 @@ class ContentEntry
 				and id = ? 
 		";
 
-		$authors = qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $author_id));
+		$authors = QDB::qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $author_id));
 		return (isset($authors[0])) ? ($authors[0]) : (false);
 	}
 
@@ -351,7 +351,7 @@ class ContentEntry
 				and id = ?
 			";
 
-		$cats = qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->parent, $cat_id));
+		$cats = QDB::qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->parent, $cat_id));
 		return (isset($cats[0])) ? ($cats[0]) : (false);
 	}
 

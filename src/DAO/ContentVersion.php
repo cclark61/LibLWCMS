@@ -34,7 +34,7 @@ class ContentVersion
 		// Pull Version Content
 		//-------------------------------------------------
 		$strsql = "select raw_content from content_versions where id = ?";
-		$versions = qdb_exec($ds, $strsql, array('i', $ver_id));
+		$versions = QDB::qdb_exec($ds, $strsql, array('i', $ver_id));
 		
 		if (isset($versions[0])) {
 			return $versions[0]['raw_content'];

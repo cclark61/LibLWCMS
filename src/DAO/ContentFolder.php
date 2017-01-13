@@ -132,7 +132,7 @@ class ContentFolder
 					and entry_type = 1
 		";
 
-		$entries = qdb_exec($this->data_source, $strsql, array('is', $this->site_id, $url_tag));
+		$entries = QDB::qdb_exec($this->data_source, $strsql, array('is', $this->site_id, $url_tag));
 		if (isset($entries[0])) {
 			$this->id = $entries[0]['id'];
 			$this->parent = $entries[0]['parent'];
@@ -197,7 +197,7 @@ class ContentFolder
 			order by post_date desc limit 1
 		";
 		
-		return qdb_lookup($this->data_source, $strsql, 'id', array('ii', $this->site_id, $this->id));
+		return QDB::qdb_lookup($this->data_source, $strsql, 'id', array('ii', $this->site_id, $this->id));
 	}
 
 	//******************************************************************
@@ -219,7 +219,7 @@ class ContentFolder
 		";
 
 		// Pull Entries and return them
-		return qdb_lookup($this->data_source, $strsql, 'count', array('ii', $this->site_id, $this->id));
+		return QDB::qdb_lookup($this->data_source, $strsql, 'count', array('ii', $this->site_id, $this->id));
 	}
 
 	//******************************************************************
@@ -254,7 +254,7 @@ class ContentFolder
 		//-------------------------------------------------
 		// Pull Entries, Polish and Return
 		//-------------------------------------------------
-		$entries = qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->id, $max_entries));
+		$entries = QDB::qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->id, $max_entries));
 		$this->polish_entries($entries);
 		return $entries;
 	}
@@ -286,7 +286,7 @@ class ContentFolder
 		";
 
 		// Pull Data and Return
-		return qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $this->id));
+		return QDB::qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $this->id));
 	}
 
 	//******************************************************************
@@ -320,7 +320,7 @@ class ContentFolder
 		//-------------------------------------------------
 		// Pull Entries, Polish and Return
 		//-------------------------------------------------
-		$entries = qdb_exec($this->data_source, $strsql, array('iiss', $this->site_id, $this->id, $start_date, $end_date));
+		$entries = QDB::qdb_exec($this->data_source, $strsql, array('iiss', $this->site_id, $this->id, $start_date, $end_date));
 		$this->polish_entries($entries);
 		return $entries;
 	}
@@ -348,7 +348,7 @@ class ContentFolder
 		//-------------------------------------------------
 		// Pull Entries and return them
 		//-------------------------------------------------
-		return qdb_lookup($this->data_source, $strsql, 'count', array('iii', $this->site_id, $this->id, $cat_id));
+		return QDB::qdb_lookup($this->data_source, $strsql, 'count', array('iii', $this->site_id, $this->id, $cat_id));
 	}
 
 	//******************************************************************
@@ -375,7 +375,7 @@ class ContentFolder
 		//-------------------------------------------------
 		// Pull Entries, Polish and Return
 		//-------------------------------------------------
-		$entries = qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->id, $cat_id));
+		$entries = QDB::qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->id, $cat_id));
 		$this->polish_entries($entries);
 		return $entries;
 	}
@@ -450,7 +450,7 @@ class ContentFolder
 		//-------------------------------------------------
 		// Pull Categories for this folder
 		//-------------------------------------------------
-		$folder_cats = qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $this->id), 'cat_id');
+		$folder_cats = QDB::qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $this->id), 'cat_id');
 
 		//-------------------------------------------------
 		// Pull all Folder Categories
@@ -495,7 +495,7 @@ class ContentFolder
 		$strsql .= "
 			order by category
 		";
-		return qdb_exec($this->data_source, $strsql, $params, 'id');
+		return QDB::qdb_exec($this->data_source, $strsql, $params, 'id');
 	}
 
 	//******************************************************************
@@ -519,7 +519,7 @@ class ContentFolder
 				and id = ?
 			";
 
-		$cats = qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->id, $cat_id));
+		$cats = QDB::qdb_exec($this->data_source, $strsql, array('iii', $this->site_id, $this->id, $cat_id));
 		return (isset($cats[0])) ? ($cats[0]) : (false);
 	}
 
@@ -553,7 +553,7 @@ class ContentFolder
 		//-------------------------------------------------
 		// Pull Authors for this folder
 		//-------------------------------------------------
-		$folder_authors = qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $this->id), 'entry_author');
+		$folder_authors = QDB::qdb_exec($this->data_source, $strsql, array('ii', $this->site_id, $this->id), 'entry_author');
 
 		//-------------------------------------------------
 		// Pull all Site Authors
@@ -591,7 +591,7 @@ class ContentFolder
 		";
 
 		$params = array('i', $this->site_id);
-		return qdb_exec($this->data_source, $strsql, $params, 'id');
+		return QDB::qdb_exec($this->data_source, $strsql, $params, 'id');
 	}
 
 	//******************************************************************
@@ -615,7 +615,7 @@ class ContentFolder
 		";
 
 		$params = array('ii', $this->site_id, $author_id);
-		return qdb_first_row($this->data_source, $strsql, $params);
+		return QDB::qdb_first_row($this->data_source, $strsql, $params);
 	}
 
 }
